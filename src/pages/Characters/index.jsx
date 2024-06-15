@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Card } from "../../components/Molecule/Card";
 
 const { REACT_APP_API_BASE_ENDPOINT } = process.env;
 const END_POINT = REACT_APP_API_BASE_ENDPOINT + "character";
@@ -51,14 +52,27 @@ export default function Characters() {
 
     return (
         <>
-            <h1>Página inicial</h1>
-            <h3>Total personagens: {count}</h3>
-            <h3>Total páginas: {pages}</h3>
-            <ul>
+            <div style={{ 
+                display: "flex", 
+                justifyContent: "center", 
+                flexWrap: "wrap", 
+                marginTop: 32,
+                gap: 32 
+            }}>
                 {characters.length > 0 && characters.map((character, index) => (
-                    <li key={`${character?.id}-${index}`}>{character?.name} - {character?.species}</li>
+                    <Card.Root key={`${character?.id}-${index}`}>
+                        <Card.Top>
+                                <Card.Title>{character?.name}</Card.Title>
+                                <Card.Info>
+                                    <Card.Species>{character?.species}</Card.Species>
+                                    -
+                                    <Card.Status>{character?.status}</Card.Status>
+                                </Card.Info>
+                        </Card.Top>
+                        <Card.Image title={character?.name} src={character?.image} />
+                    </Card.Root>
                 ))}
-            </ul>
+            </div>
             <div>
                 <button 
                     title="Voltar para primeira página"

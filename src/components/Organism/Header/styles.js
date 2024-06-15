@@ -1,0 +1,15 @@
+import styled from "styled-components";
+
+export const HeaderContainer = styled.header`
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 12px 0;
+    background-color: #08C952;
+    border-bottom: 2px solid #025b14;
+`;
+
+export const HeaderInfo = styled.p`
+    font-size: 1.5em;
+    font-weight: 400;
+`;
