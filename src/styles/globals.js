@@ -8,19 +8,10 @@ export const ResetCss = createGlobalStyle`
     }
 
     body * {
-        color: rgb(32, 35, 41);
+        color: whitesmoke;
     }
 
-    body::-webkit-scrollbar {
-        width: 3px;
-    }
-
-    body::-webkit-scrollbar-track {
-        background: linear-gradient(#2b86ff, blue);
-    }
-
-    body::-webkit-scrollbar-thumb {
-        background-color: #2b86ff;
-        border-radius: 20px;
+    html, body {
+        background: rgb(39, 43, 51);
     }
 `;

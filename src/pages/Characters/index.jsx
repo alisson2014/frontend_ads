@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
+import Pagination from 'react-bootstrap/Pagination';
 import { Card } from "../../components/Molecule/Card";
+import { ListCharacters } from "./styles";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 
 const { REACT_APP_API_BASE_ENDPOINT } = process.env;
 const END_POINT = REACT_APP_API_BASE_ENDPOINT + "character";
@@ -12,6 +15,7 @@ export default function Characters() {
     const [url, setUrl] = useState(END_POINT);
     const [count, setCount] = useState("");
     const [pages, setPages] = useState("");
+    const [filter, setFilter] = useState("");
 
     const goToFirstPage = () => setUrl(FIRST_URL);
 
@@ -29,6 +33,8 @@ export default function Characters() {
         if(!pages) return;
         setUrl(END_POINT + "?page=" + pages);
     }, [pages]);
+
+    const filterCharacters = () => setUrl(`${END_POINT}?name=${filter}`);
 
     const getAllCharacters = useCallback(async () => {
         if(!url) return;
@@ -51,14 +57,37 @@ export default function Characters() {
     }, [url, getAllCharacters]);
 
     return (
-        <>
-            <div style={{ 
-                display: "flex", 
-                justifyContent: "center", 
-                flexWrap: "wrap", 
-                marginTop: 32,
-                gap: 32 
-            }}>
+        <Container>
+            <Row className="align-items-center mt-4">
+                <Col xs={7}>
+                Outros filtros...
+                </Col>
+                <Col xs={4}>                
+                    <Form.Group>
+                        <Form.Control 
+                            type="search"
+                            placeholder="Busque pelo nome do personagem"
+                            onChange={e => setFilter(e.target.value)}
+                            value={filter}
+                            onKeyDown={e => {
+                                if(e.key !== "Enter") return;
+                                filterCharacters();
+                            }}
+                            onInput={e => {
+                                if(e.target.value) return;
+                                setUrl(END_POINT);
+                            }}
+                        />
+                    </Form.Group>
+                </Col>
+                <Col xs={1}>
+                    <Button 
+                        title="Filtrar pelo nome do personagem"
+                        onClick={filterCharacters}
+                    >Buscar</Button>
+                </Col>
+            </Row>
+            <ListCharacters>
                 {characters.length > 0 && characters.map((character, index) => (
                     <Card.Root key={`${character?.id}-${index}`}>
                         <Card.Top>
@@ -72,41 +101,29 @@ export default function Characters() {
                         <Card.Image title={character?.name} src={character?.image} />
                     </Card.Root>
                 ))}
-            </div>
-            <div>
-                <button 
-                    title="Voltar para primeira página"
+            </ListCharacters>
+            <Pagination 
+                size="lg"
+                className="d-flex justify-content-center mt-4"
+            >
+                <Pagination.First 
                     onClick={goToFirstPage}
                     disabled={url === (FIRST_URL) || url === END_POINT}
-                    style={{ cursor: "pointer"}}
-                >
-                    Primeiro
-                </button>
-                <button 
-                    title="Voltar para página anterior"
+                />
+                <Pagination.Prev 
                     onClick={goToPrevPage}
                     disabled={!prevUrl}
-                    style={{ cursor: prevUrl ? "pointer" : "not-allowed" }}
-                >
-                    Voltar
-                </button>
-                <button 
-                    title="Ir para a próxima página"
+                />
+
+                <Pagination.Next 
                     onClick={goToNextPage}
                     disabled={!nextUrl}
-                    style={{ cursor: nextUrl ? "pointer" : "not-allowed" }}
-                >
-                    Próximo
-                </button>
-                <button 
-                    title="Ir para ultima página"
+                />
+                <Pagination.Last 
                     onClick={goToLastPage}
                     disabled={url === END_POINT + "?page=" + pages}
-                    style={{ cursor: "pointer"}}
-                >
-                    Ultima
-                </button>
-            </div>
-        </>
+                />
+            </Pagination>
+        </Container>
     );
 }

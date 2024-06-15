@@ -1,10 +1,12 @@
 import styled from "styled-components";
 
 const StyledCardTop = styled.div`
+    flex: 3 1 0%;
+    position: relative;
+    padding: 0.75rem;
+    color: rgb(255, 255, 255);
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    padding: 16px 10px;
+    flex-direction: column;
 `;
 
 export default function CardTop({ children }) {

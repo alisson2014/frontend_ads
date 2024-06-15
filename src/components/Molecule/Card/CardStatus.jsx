@@ -1,9 +1,9 @@
 export default function CardStatus({ children }) {
     const getColor = () => {
         if(children === "Alive") {
-            return "green";
+            return "rgb(85, 204, 68)";
         } else if (children === "Dead") {
-            return "red";
+            return "rgb(214, 61, 46);";
         } else {
             return "purple";
         }
