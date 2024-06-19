@@ -91,12 +91,15 @@ export default function Characters() {
                 {characters.length > 0 && characters.map((character, index) => (
                     <Card.Root key={`${character?.id}-${index}`}>
                         <Card.Top>
-                                <Card.Title>{character?.name}</Card.Title>
-                                <Card.Info>
-                                    <Card.Species>{character?.species}</Card.Species>
-                                    -
-                                    <Card.Status>{character?.status}</Card.Status>
-                                </Card.Info>
+                                <div>
+                                    <Card.Title>{character?.name}</Card.Title>
+                                    <Card.Info>                                        
+                                        <Card.Species>{character?.species}</Card.Species>
+                                        -
+                                        <Card.Status>{character?.status}</Card.Status>
+                                    </Card.Info>
+                                </div>
+                                <Card.MoreInfoButton character={character?.name}>More information</Card.MoreInfoButton>
                         </Card.Top>
                         <Card.Image title={character?.name} src={character?.image} />
                     </Card.Root>

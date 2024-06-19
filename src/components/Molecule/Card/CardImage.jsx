@@ -6,12 +6,8 @@ const Image = styled.img`
     max-width: 100%;
     width: 100%;
     height: 100%;
-    margin: 0px;
-    opacity: 1;
-    transition: opacity 0.5s ease 0s;
     object-position: center center;
     object-fit: cover;
-    display: block;
 `;
 
 const ImageContainer = styled.div`

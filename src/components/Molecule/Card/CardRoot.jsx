@@ -11,6 +11,10 @@ const StyledCard = styled(Card)`
     border-radius: 0.5rem;
     margin: 0.75rem;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px;
+
+    @media (min-width: 240px) and (max-width: 640px) {
+        width: 560px;
+    }
 `;
 
 export default function CardRoot({ children }) {

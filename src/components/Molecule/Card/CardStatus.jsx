@@ -1,13 +1,22 @@
-export default function CardStatus({ children }) {
-    const getColor = () => {
-        if(children === "Alive") {
-            return "rgb(85, 204, 68)";
-        } else if (children === "Dead") {
-            return "rgb(214, 61, 46);";
-        } else {
-            return "purple";
-        }
-    };
+import styled from "styled-components";
 
-    return <span style={{ color: getColor(), fontWeight: "bold" }}>{children}</span>;
+const getColor = (status) => {
+    switch (status) {
+      case 'Alive':
+        return 'rgb(85, 204, 68)';
+      case 'Dead':
+        return 'rgb(214, 61, 46)';
+      default:
+        return 'purple';
+    }
+};
+  
+const StatusSpan = styled.span`
+    color: ${(props) => getColor(props.status)};
+    font-weight: bold;
+`;
+  
+
+export default function CardStatus({ children }) {
+    return <StatusSpan status={children}>{children}</StatusSpan>;;
 };

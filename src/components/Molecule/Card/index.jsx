@@ -15,5 +15,6 @@ export const Card = {
     Species: CardSpecies,
     Image: CardImage,
     Info: CardInfo,
-    MoreInfo: CardMoreInfo
+    MoreInfo: CardMoreInfo,
+    MoreInfoButton: CardMoreInfo
 };

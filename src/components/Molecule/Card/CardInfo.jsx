@@ -1,11 +1,20 @@
+import { Row } from "react-bootstrap";
 import styled from "styled-components"
 
 const InfoContainer = styled.div`
     display: flex;
-    gap: 4px;
     align-items: center;
+    gap: 8px;
+
+    @media (min-width: 240px) and (max-width: 640px) {
+        font-size: 1rem;
+    }
 `;
 
 export default function CardInfo({ children }) {
-    return <InfoContainer>{children}</InfoContainer>
+    return (
+        <Row>
+            <InfoContainer>{children}</InfoContainer>
+        </Row>
+    );
 };
