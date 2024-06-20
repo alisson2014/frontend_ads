@@ -6,7 +6,6 @@ export const HeaderContainer = styled.header`
     justify-content: space-around;
     padding: 12px 0;
     background-color: rgb(85, 204, 68);
-    border-bottom: 2px solid #025b14;
 `;
 
 export const HeaderInfo = styled.p`

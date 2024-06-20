@@ -6,7 +6,6 @@ export default function Template() {
         <>
             <Header />
             <Outlet />
-            <footer>Rodapé</footer>
         </>
     );
 };

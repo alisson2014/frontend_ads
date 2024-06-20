@@ -13,11 +13,12 @@ const StyledRow = styled(Row)`
     }
 `;
 
-export default function CardMoreInfo({ children, character, handleClick }) {
+export default function CardMoreInfo({ children, character, handleClick, disabled = false }) {
     return (
         <StyledRow>
             <Button
                 onClick={handleClick}
+                disabled={disabled}
                 title={`Get more character information ${character}`}
                 variant="outline-info"
             >

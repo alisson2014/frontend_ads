@@ -1,14 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
-import Pagination from 'react-bootstrap/Pagination';
 import { Card } from "../../components/Molecule/Card";
 import { ListCharacters } from "./styles";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const { REACT_APP_API_BASE_ENDPOINT } = process.env;
 const END_POINT = REACT_APP_API_BASE_ENDPOINT + "character";
 const FIRST_URL = END_POINT + "?page=1";
 
 export default function Characters() {
+    const navigate = useNavigate();
+
     const [characters, setCharacters] = useState([]);
     const [prevUrl, setPrevUrl] = useState(null);
     const [nextUrl, setNextUrl] = useState(null);
@@ -36,6 +38,12 @@ export default function Characters() {
 
     const filterCharacters = () => setUrl(`${END_POINT}?name=${filter}`);
 
+    const handleMoreInformation = id => {
+        if(!id) return;
+
+        navigate(`/characters/${id}`);
+    };
+
     const getAllCharacters = useCallback(async () => {
         if(!url) return;
 
@@ -59,14 +67,14 @@ export default function Characters() {
     return (
         <Container>
             <Row className="align-items-center mt-4">
-                <Col xs={7}>
+                <Col xs={8}>
                 Outros filtros...
                 </Col>
                 <Col xs={4}>                
                     <Form.Group>
                         <Form.Control 
                             type="search"
-                            placeholder="Busque pelo nome do personagem"
+                            placeholder="Search by character name"
                             onChange={e => setFilter(e.target.value)}
                             value={filter}
                             onKeyDown={e => {
@@ -79,12 +87,6 @@ export default function Characters() {
                             }}
                         />
                     </Form.Group>
-                </Col>
-                <Col xs={1}>
-                    <Button 
-                        title="Filtrar pelo nome do personagem"
-                        onClick={filterCharacters}
-                    >Buscar</Button>
                 </Col>
             </Row>
             <ListCharacters>
@@ -99,34 +101,57 @@ export default function Characters() {
                                         <Card.Status>{character?.status}</Card.Status>
                                     </Card.Info>
                                 </div>
-                                <Card.MoreInfoButton character={character?.name}>More information</Card.MoreInfoButton>
+                                <Card.MoreInfoButton 
+                                    character={character?.name}
+                                    handleClick={() => {
+                                        handleMoreInformation(character?.id);
+                                    }}
+                                >
+                                    More information
+                                </Card.MoreInfoButton>
                         </Card.Top>
                         <Card.Image title={character?.name} src={character?.image} />
                     </Card.Root>
                 ))}
             </ListCharacters>
-            <Pagination 
-                size="lg"
-                className="d-flex justify-content-center mt-4"
+            <div 
+                className="d-flex justify-content-center mt-1"
+                style={{ gap: 8 }} 
             >
-                <Pagination.First 
+                <Button
+                    variant="outline-light" 
+                    title="Return to first page"
                     onClick={goToFirstPage}
                     disabled={url === (FIRST_URL) || url === END_POINT}
-                />
-                <Pagination.Prev 
+                >
+                    First
+                </Button> 
+                <Button 
+                    variant="outline-light"
+                    title="Return to previous page"
                     onClick={goToPrevPage}
                     disabled={!prevUrl}
-                />
-
-                <Pagination.Next 
+                >
+                    Previous
+                </Button> 
+                <Button
+                    variant="outline-light"
+                    title="Go to next page"
                     onClick={goToNextPage}
                     disabled={!nextUrl}
-                />
-                <Pagination.Last 
+                >
+                    Next
+                </Button>
+                <Button
+                    variant="outline-light"
+                    title="Go to last page"
                     onClick={goToLastPage}
                     disabled={url === END_POINT + "?page=" + pages}
-                />
-            </Pagination>
+                >
+                    Last
+                </Button>
+            </div>
+
         </Container>
     );
 }
