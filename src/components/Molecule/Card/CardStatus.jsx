@@ -18,5 +18,5 @@ const StatusSpan = styled.span`
   
 
 export default function CardStatus({ children }) {
-    return <StatusSpan status={children}>{children}</StatusSpan>;;
+    return <StatusSpan status={children}>{children}</StatusSpan>;
 };

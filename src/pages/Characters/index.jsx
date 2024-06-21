@@ -3,6 +3,7 @@ import { Card } from "../../components/Molecule/Card";
 import { ListCharacters } from "./styles";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import Spinner from 'react-bootstrap/Spinner';
 
 const { REACT_APP_API_BASE_ENDPOINT } = process.env;
 const END_POINT = REACT_APP_API_BASE_ENDPOINT + "character";
@@ -63,6 +64,10 @@ export default function Characters() {
     useEffect(() => {
         getAllCharacters();
     }, [url, getAllCharacters]);
+
+    if(characters.length === 0) {
+        return <Spinner />;
+    }
 
     return (
         <Container>
