@@ -10,6 +10,7 @@ const FIRST_URL = END_POINT + "?page=1";
 
 export default function Characters() {
     const navigate = useNavigate();
+    console.log(REACT_APP_API_BASE_ENDPOINT);
 
     const [characters, setCharacters] = useState([]);
     const [prevUrl, setPrevUrl] = useState(null);
