@@ -3,41 +3,71 @@ import { Card } from "components/Molecules";
 import { ListCharacters } from "./styles";
 import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { InformativeTitle, SubTitle } from "styles/utils";
 
-const { REACT_APP_API_BASE_ENDPOINT } = process.env;
-const END_POINT = REACT_APP_API_BASE_ENDPOINT + "character";
-const FIRST_URL = END_POINT + "?page=1";
+const END_POINT = `${process.env.REACT_APP_API_BASE_ENDPOINT}character`;
+const FIRST_URL = `${END_POINT}?page=1`;
+const LAST_URL = totalPages => `${END_POINT}?page=${totalPages}`;
 
 export default function Characters() {
     const navigate = useNavigate();
-    console.log(REACT_APP_API_BASE_ENDPOINT);
 
     const [characters, setCharacters] = useState([]);
     const [prevUrl, setPrevUrl] = useState(null);
     const [nextUrl, setNextUrl] = useState(null);
+    const [firstUrl, setFirstUrl] = useState(null);
+    const [lastUrl, setLastUrl] = useState(null);
     const [url, setUrl] = useState(END_POINT);
     const [count, setCount] = useState("");
     const [pages, setPages] = useState("");
+    const [actualPage, setActualPage] = useState(1)
     const [filter, setFilter] = useState("");
+    const [loading, setLoading] = useState(true);
 
-    const goToFirstPage = () => setUrl(FIRST_URL);
+    const acitveLoading = () => setLoading(true);
+    const disableLoading = () => setLoading(false);
+
+    const goToFirstPage = useCallback(() => {
+        setActualPage(1);
+        acitveLoading();
+        setUrl(firstUrl);
+    }, [firstUrl]);
 
     const goToPrevPage = useCallback(() => {
         if(!prevUrl) return;
+
+        setActualPage(prev => prev - 1);
+        acitveLoading();
         setUrl(prevUrl);
     }, [prevUrl]);
 
     const goToNextPage = useCallback(() => {
         if(!nextUrl) return;
+
+        setActualPage(prev => prev + 1);
+        acitveLoading();
         setUrl(nextUrl);
     }, [nextUrl]);
 
     const goToLastPage = useCallback(() => {
         if(!pages) return;
-        setUrl(END_POINT + "?page=" + pages);
-    }, [pages]);
 
-    const filterCharacters = () => setUrl(`${END_POINT}?name=${filter}`);
+        setActualPage(pages);
+        acitveLoading();
+        setUrl(lastUrl);
+    }, [pages, lastUrl]);
+
+    const filterCharacters = (filteredValue = null) => {
+        setActualPage(1);
+        acitveLoading();
+
+        if(filteredValue) {
+            setUrl(`${END_POINT}?name=${filteredValue}`);
+        } else {
+            setUrl(END_POINT);
+        }
+    };
 
     const handleMoreInformation = id => {
         if(!id) return;
@@ -45,19 +75,46 @@ export default function Characters() {
         navigate(`/characters/${id}`);
     };
 
+    const handleChangeFirstAndLastUrls = (first, last, totalPages) => {
+        console.log(first, last, filter);
+        if(!last) {
+            setLastUrl(null);
+        } else {
+            if(filter) {
+                setLastUrl(LAST_URL(totalPages) + "&name=" + filter);
+            } else {
+                setLastUrl(LAST_URL(totalPages));
+            }
+        }
+
+        if(!first) {
+            setFirstUrl(null);
+        } else {
+            if(filter) {
+                setFirstUrl(`${FIRST_URL}&name=${filter}`);
+            } else {
+                setFirstUrl(FIRST_URL);
+            }
+        }
+    };
+
     const getAllCharacters = useCallback(async () => {
         if(!url) return;
 
         try {
-            const response = await fetch(url);
-            const data = await response.json();
+            const response = await axios.get(url);
+            const { data } = response;
+
             setCount(data.info.count);
             setPages(data.info.pages);
             setPrevUrl(data.info.prev);
             setNextUrl(data.info.next);
             setCharacters(data.results);
+            handleChangeFirstAndLastUrls(data.info.prev, data.info.next, data.info.pages);
         } catch (error) {
             console.error("Erro ao buscar dados: ", error);
+        } finally {
+            setTimeout(disableLoading, 1000);
         }
     }, [url]);
 
@@ -65,8 +122,14 @@ export default function Characters() {
         getAllCharacters();
     }, [url, getAllCharacters]);
 
-    if(characters.length === 0) {
-        return <Spinner />;
+    if(loading) {
+        return (
+            <Container>
+                <Row className="align-items-center justify-content-center mt-4">
+                    <Spinner animation="grow" variant="primary" />
+                </Row>
+            </Container>
+        );
     }
 
     return (
@@ -84,11 +147,11 @@ export default function Characters() {
                             value={filter}
                             onKeyDown={e => {
                                 if(e.key !== "Enter") return;
-                                filterCharacters();
+                                filterCharacters(filter);
                             }}
                             onInput={e => {
                                 if(e.target.value) return;
-                                setUrl(END_POINT);
+                                filterCharacters();
                             }}
                         />
                     </Form.Group>
@@ -120,43 +183,54 @@ export default function Characters() {
                 ))}
             </ListCharacters>
             <div 
-                className="d-flex justify-content-center mt-1 mb-3"
-                style={{ gap: 8 }} 
+                className="
+                    d-flex 
+                    flex-column 
+                    align-items-center 
+                    justify-content-center 
+                    mt-1 
+                    mb-3"
+                style={{ gap: 8 }}
             >
-                <Button
-                    variant="outline-light" 
-                    title="Return to first page"
-                    onClick={goToFirstPage}
-                    disabled={url === (FIRST_URL) || url === END_POINT}
-                >
-                    First
-                </Button> 
-                <Button 
-                    variant="outline-light"
-                    title="Return to previous page"
-                    onClick={goToPrevPage}
-                    disabled={!prevUrl}
-                >
-                    Previous
-                </Button> 
-                <Button
-                    variant="outline-light"
-                    title="Go to next page"
-                    onClick={goToNextPage}
-                    disabled={!nextUrl}
-                >
-                    Next
-                </Button>
-                <Button
-                    variant="outline-light"
-                    title="Go to last page"
-                    onClick={goToLastPage}
-                    disabled={url === END_POINT + "?page=" + pages}
-                >
-                    Last
-                </Button>
+                <div className="d-flex justify-content-between align-items-center" style={{ gap: 64 }}>
+                    <SubTitle>Page {actualPage} of {pages}</SubTitle>
+                    <InformativeTitle>{count} characters</InformativeTitle>
+                </div>
+                <div className="d-flex" style={{ gap: 16 }}>
+                    <Button
+                        variant="outline-light" 
+                        title="Return to first page"
+                        onClick={goToFirstPage}
+                        disabled={!firstUrl}
+                    >
+                        First
+                    </Button> 
+                    <Button 
+                        variant="outline-light"
+                        title="Return to previous page"
+                        onClick={goToPrevPage}
+                        disabled={!prevUrl}
+                    >
+                        Previous
+                    </Button> 
+                    <Button
+                        variant="outline-light"
+                        title="Go to next page"
+                        onClick={goToNextPage}
+                        disabled={!nextUrl}
+                    >
+                        Next
+                    </Button>
+                    <Button
+                        variant="outline-light"
+                        title="Go to last page"
+                        onClick={goToLastPage}
+                        disabled={!lastUrl}
+                    >
+                        Last
+                    </Button>
+                </div>
             </div>
-
         </Container>
     );
 }

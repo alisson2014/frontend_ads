@@ -12,11 +12,11 @@ const getColor = (status) => {
 };
   
 const StatusSpan = styled.span`
-    color: ${(props) => getColor(props.status)};
+    color: ${(props) => getColor(props.children)};
     font-weight: bold;
 `;
   
 
 export default function CardStatus({ children }) {
-    return <StatusSpan status={children}>{children}</StatusSpan>;
+    return <StatusSpan>{children}</StatusSpan>;
 };

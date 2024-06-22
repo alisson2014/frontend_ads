@@ -4,6 +4,7 @@ import { SubTitle, Title } from "styles/utils";
 import * as Styled from "./style";
 import { Button, ListGroup } from "react-bootstrap";
 import { ModalEpisodes } from "components/Organism";
+import axios from "axios";
 
 const { REACT_APP_API_BASE_ENDPOINT } = process.env;
 
@@ -18,9 +19,8 @@ export default function Character() {
     const handleCloseModal = () => setShow(false);
 
     const getCharacter = useCallback(async () => {
-        const response = await fetch(END_POINT);
-        const data = await response.json();
-        setCharacter(data);
+        const data = await axios.get(END_POINT);
+        setCharacter(data.data);
     }, []);
 
     useEffect(() => {
