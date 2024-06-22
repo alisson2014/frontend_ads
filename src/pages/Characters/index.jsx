@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
-import { Card } from "../../components/Molecule/Card";
+import { Card } from "components/Molecules";
 import { ListCharacters } from "./styles";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import Spinner from 'react-bootstrap/Spinner';
 
 const { REACT_APP_API_BASE_ENDPOINT } = process.env;
 const END_POINT = REACT_APP_API_BASE_ENDPOINT + "character";

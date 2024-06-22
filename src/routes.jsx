@@ -1,6 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { Character, Characters, Login, NotFound } from "./pages";
-import Template from "./pages/Template";
+import { Character, Characters, Login, NotFound, Template } from "./pages";
 
 const router = createBrowserRouter([
     {

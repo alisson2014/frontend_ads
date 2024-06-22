@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { SubTitle, Title } from "../../styles/utils";
+import { SubTitle, Title } from "styles/utils";
 import * as Styled from "./style";
-import ListGroup from 'react-bootstrap/ListGroup';
-import { Button } from "react-bootstrap";
-import ModalEpisodes from "../../components/Organism/ModalEpisodes";
+import { Button, ListGroup } from "react-bootstrap";
+import { ModalEpisodes } from "components/Organism";
 
 const { REACT_APP_API_BASE_ENDPOINT } = process.env;
 

@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 import { HeaderContainer, HeaderInfo } from "./styles";
-import { MainTitle } from "../../../styles/utils";
+import { MainTitle } from "styles/utils";
 
 export default function Header() {
     return (
