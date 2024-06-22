@@ -120,7 +120,7 @@ export default function Characters() {
                 ))}
             </ListCharacters>
             <div 
-                className="d-flex justify-content-center mt-1"
+                className="d-flex justify-content-center mt-1 mb-3"
                 style={{ gap: 8 }} 
             >
                 <Button
