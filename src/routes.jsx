@@ -1,4 +1,4 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import { Character, Characters, Login, NotFound, Template } from "./pages";
 
 const router = createBrowserRouter([
@@ -12,11 +12,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Characters />
-            },
-            {
-                path: "/login",
-                element: <Login />
+                element: <Navigate to="/characters" />
             },
             {
                 path: "/characters",
@@ -27,6 +23,10 @@ const router = createBrowserRouter([
                 element: <Character />
             }
         ]
+    },
+    {
+        path: "/login",
+        element: <Login />
     },
 ]);
 
