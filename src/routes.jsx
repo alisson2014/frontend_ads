@@ -1,5 +1,6 @@
 import { RouterProvider, createBrowserRouter, Navigate } from "react-router-dom";
 import { Character, Characters, Login, NotFound, Template } from "./pages";
+import { PrivateRoute } from "service";
 
 const router = createBrowserRouter([
     {
@@ -16,17 +17,25 @@ const router = createBrowserRouter([
             },
             {
                 path: "/characters",
-                element: <Characters />
+                element: (
+                    <PrivateRoute>
+                        <Characters />
+                    </PrivateRoute>
+                )
             },
             {
                 path: "/characters/:id",
-                element: <Character />
-            }
+                element: (
+                    <PrivateRoute>
+                        <Character />
+                    </PrivateRoute>
+                )
+            },
+            {
+                path: "/login",
+                element: <Login />
+            },
         ]
-    },
-    {
-        path: "/login",
-        element: <Login />
     },
 ]);
 
