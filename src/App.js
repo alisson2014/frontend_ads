@@ -1,5 +1,14 @@
+import AppContextProvider from "components/Organism/AppContext";
 import AppRouter from "routes";
+import { createLocalStorage, getAllLocalStorage } from "service/storage";
+import { ResetCss } from "styles/globals";
 
 export default function App() {
-  return <AppRouter />;
+  !getAllLocalStorage() && createLocalStorage()
+  return (
+    <AppContextProvider>
+      <ResetCss />
+      <AppRouter />
+    </AppContextProvider>
+  );
 };

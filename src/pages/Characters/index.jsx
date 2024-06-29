@@ -3,8 +3,8 @@ import { Card } from "components/Molecules";
 import { ListCharacters } from "./styles";
 import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { InformativeTitle, SubTitle } from "styles/utils";
+import { CharactersService } from "service/CharactersService";
 
 const END_POINT = `${process.env.REACT_APP_API_BASE_ENDPOINT}character`;
 const FIRST_URL = `${END_POINT}?page=1`;
@@ -76,7 +76,6 @@ export default function Characters() {
     };
 
     const handleChangeFirstAndLastUrls = (first, last, totalPages) => {
-        console.log(first, last, filter);
         if(!last) {
             setLastUrl(null);
         } else {
@@ -102,8 +101,7 @@ export default function Characters() {
         if(!url) return;
 
         try {
-            const response = await axios.get(url);
-            const { data } = response;
+            const { data } = await CharactersService.getAll(url);
 
             setCount(data.info.count);
             setPages(data.info.pages);
