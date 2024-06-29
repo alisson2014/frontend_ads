@@ -1,3 +1,25 @@
+# Rodando o projeto
+Este projeto pode ser rodado tanto via npm quanto via docker. Se preferir usar docker aqui estão alguns comandos:
+
+## Sobe a aplicação em ambiente de desenvolvimento
+```
+docker compose up --build
+```
+
+## Sobe a aplicação em produção usando nginx server
+Observação: Ao rodar o app em produção, novas modificações não serão compiladas.
+```
+docker compose -f docker-compose.prod.yml up --build
+```
+
+## Login
+A rota de login so sera autenticada com estes valores:
+
+Email: alm20@gmail.com
+Password: 12345678
+
+## Também é possivel rodar o projeto somente com o npm seguindo o padrão abaixo
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
