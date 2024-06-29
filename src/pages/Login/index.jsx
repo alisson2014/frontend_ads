@@ -3,9 +3,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession } from 'components/Organism/AppContext';
 import { Button, Form, Container, Card } from 'react-bootstrap';
-import { LoginService } from 'service/LoginService';
+import { changeLocalStorage, LoginService } from "service";
 import styled from 'styled-components';
-import { changeLocalStorage } from "service/storage";
 
 const StyledCard = styled(Card)`
     width: 500px;

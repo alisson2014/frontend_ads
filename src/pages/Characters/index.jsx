@@ -4,7 +4,7 @@ import { ListCharacters } from "./styles";
 import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { InformativeTitle, SubTitle } from "styles/utils";
-import { CharactersService } from "service/CharactersService";
+import { CharactersService } from "service";
 
 const END_POINT = `${process.env.REACT_APP_API_BASE_ENDPOINT}character`;
 const FIRST_URL = `${END_POINT}?page=1`;

@@ -1,10 +1,6 @@
-const rickAndMorty = {
-  login: false
-};
+const rickAndMorty = { login: false };
 
-export const getAllLocalStorage = () => {
-  return localStorage.getItem("rickAndMorty");
-};
+export const getAllLocalStorage = () => localStorage.getItem("rickAndMorty");
   
 export const createLocalStorage = () => {
   localStorage.setItem("rickAndMorty", JSON.stringify(rickAndMorty));

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { getAllLocalStorage } from "service/storage";
+import { getAllLocalStorage } from "service";
 
 export const AppContext = createContext({});
 export const useSession = () => useContext(AppContext);

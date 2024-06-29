@@ -4,7 +4,7 @@ import { SubTitle, Title } from "styles/utils";
 import * as Styled from "./style";
 import { Button, ListGroup } from "react-bootstrap";
 import { ModalEpisodes } from "components/Organism";
-import { CharactersService } from "service/CharactersService";
+import { CharactersService } from "service";
 
 const { REACT_APP_API_BASE_ENDPOINT } = process.env;
 
